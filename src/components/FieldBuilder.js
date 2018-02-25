@@ -18,8 +18,8 @@ const choices = [
   { key: 'Australia', text: 'Australia', value: 'Australia' },
   { key: 'Europe', text: 'Europe', value: 'Europe' },
   { key: 'Americas', text: 'Americas', value: 'Americas' },
-  { key: 'Africa', text: 'Africa', value: 'Africa' },
   { key: 'Africa', text: 'Africa', value: 'Africa' }
+  // { key: 'Africa', text: 'Africa', value: 'Africa' }
 ];
 
 const orderOptions = [
@@ -37,12 +37,7 @@ class FieldBuilder extends React.Component {
       choices: [],
       order: '',
       checked: false,
-      labelError: false,
-      labelErrorText: "This field is required",
-      duplicatesError: false,
-      duplicatesErrorText: "Duplicate choices are not allowed",
-      maxError: false,
-      maxErrorText: "The maximum number of choices is 50"
+      errors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -60,6 +55,21 @@ class FieldBuilder extends React.Component {
     console.log('checked?', this.state.checked)
   };
 
+  addDefaultValue = () => {
+    const defaultValue = this.state.defaultValue;
+    let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
+    const index = choices.findIndex(item => item.value === defaultValue);
+    if (index === -1 && defaultValue !== "") {
+      choices.push(newItem);
+      this.setState({
+        choices: [...this.state.choices, newItem]
+      });
+      console.log("this.state.choices", this.state.choices);
+    } else {
+      console.log("default value already exists in choices or is empty");
+    }
+  }
+
   resetForm = () => {
     this.setState({
       label: '',
@@ -76,19 +86,18 @@ class FieldBuilder extends React.Component {
     let hasDuplicates = choices.some(function(currentObject) {
       return seen.size === seen.add(currentObject.value).size;
     });
-    if (!hasDuplicates) {
-      this.setState({duplicatesError: true})
-    } else {
-      this.setState({duplicatesError: false})
-
-    }
-    console.log("hasDuplicates", this.state.duplicatesError);
+    console.log("hasDuplicates", hasDuplicates);
+    return hasDuplicates;
   };
 
   sendData = () => {
     axios.post('http://www.mocky.io/v2/566061f21200008e3aabd919', {
       'label': this.state.label,
-      'type': this.state.type
+      'type': this.state.type,
+      'defaultValue': this.state.defaultValue,
+      'choices': this.state.choices,
+      'order': this.state.order,
+      'checked': this.state.checked
     }).then(function (response) {
       console.log(response);
       console.log('json post data', response.config.data);
@@ -97,36 +106,40 @@ class FieldBuilder extends React.Component {
     });
   };
 
+  validate = () => {
+    let errors = {};
+    if (this.state.label === "") {
+      errors.label = "This field is required";
+    } else {
+      delete errors.label;
+    }
+    if (this.state.choices.length >= 1) {
+      errors.max = "The maximum number of choices is 50";
+    } else {
+      delete errors.max;
+    }
+    if (this.checkForDuplicates()) {
+      errors.duplicates = "Duplicate choices are not allowed";
+    } else {
+      delete errors.duplicates;
+    }
+    return errors;
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("submitted");
-    this.checkForDuplicates();
-
-    if (!this.state.label) {
-      this.setState({labelError: true});
-    } else {
-      this.setState({labelError: false})
-    }
-
-    if (this.state.choices.length >= 50) {
-      this.setState({maxError: true});
-    } else {
-      this.setState({maxError: false});
-    }
-
-    if (this.checkForDuplicates) {
-      this.setState({duplicatesError: true});
-    } else {
-      this.setState({duplicatesError: false});
-    }
-
-    if (!this.state.label || this.state.choices.length >= 50) {
-      console.log("error");
-      return false;
+    this.addDefaultValue();
+    let errors = this.validate();
+    this.setState({
+      errors: errors
+    });
+    if (Object.keys(errors).length !== 0) {
+      console.log(this.state.errors);
+      return;
     } else {
       this.sendData();
     }
-
   };
 
   render() {
@@ -137,7 +150,7 @@ class FieldBuilder extends React.Component {
           value={this.state.label}
           onChange={this.handleChange('label')}
         />
-        {this.state.labelError ? <FormError label={this.state.labelErrorText}/> : null}
+        {this.state.errors.label ? <FormError label={this.state.errors.label}/> : null}
         <div>
           <DropdownSelect
             label="Type"
@@ -160,7 +173,8 @@ class FieldBuilder extends React.Component {
           placeholder='Choose an option'
           value={this.state.choices}
         />
-        {this.state.maxError ? <FormError label={this.state.maxErrorText}/> : null}
+        {this.state.errors.duplicates ? <FormError label={this.state.errors.duplicates}/> : null}
+        {this.state.errors.max ? <FormError label={this.state.errors.max}/> : null}
         <DropdownSelect
           label="Order"
           onChange={this.handleChange('order')}
@@ -171,9 +185,8 @@ class FieldBuilder extends React.Component {
         <div>
           <Button label="Save changes" type="submit" className="save"/>
           <span>Or</span>
-          <Button label="Cancel" type="button" className="cancel"/>
+          <Button label="Cancel" type="button" className="cancel" onClick={this.resetForm}/>
         </div>
-        <Button label="reset" type="button" onClick={this.resetForm}/>
       </form>
     );
   }

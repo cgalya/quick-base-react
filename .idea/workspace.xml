@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a37eae7-e70f-4bf4-999e-d3314f2e5b0e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/src/components/Button.js" afterPath="$PROJECT_DIR$/src/components/Button.js" />
       <change beforePath="$PROJECT_DIR$/src/components/FieldBuilder.js" afterPath="$PROJECT_DIR$/src/components/FieldBuilder.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/TextInput.js" afterPath="$PROJECT_DIR$/src/components/TextInput.js" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +17,8 @@
       <file leaf-file-name="FieldBuilder.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/FieldBuilder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+            <state relative-caret-position="126">
+              <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -207,12 +203,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="quick-base-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="quick-base-react" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -340,7 +330,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1519492359338</updated>
-      <workItem from="1519492361427" duration="34249000" />
+      <workItem from="1519492361427" duration="39615000" />
     </task>
     <task id="LOCAL-00001" summary="basic component structure">
       <created>1519494578371</created>
@@ -356,11 +346,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519532924378</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="working on validation">
+      <created>1519540362536</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1519540362536</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34249000" />
+    <option name="totallyTimeSpent" value="39615000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -435,7 +432,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="basic component structure" />
     <MESSAGE value="main components complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="main components complete" />
+    <MESSAGE value="working on validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on validation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -577,8 +575,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/FieldBuilder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        <state relative-caret-position="126">
+          <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
