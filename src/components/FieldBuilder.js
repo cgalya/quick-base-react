@@ -56,17 +56,22 @@ class FieldBuilder extends React.Component {
   };
 
   addDefaultValue = () => {
-    const defaultValue = this.state.defaultValue;
-    let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
-    const index = choices.findIndex(item => item.value === defaultValue);
-    if (index === -1 && defaultValue !== "") {
-      choices.push(newItem);
-      this.setState({
-        choices: [...this.state.choices, newItem]
-      });
-      console.log("this.state.choices", this.state.choices);
+    let defaultValue = "";
+    if (this.state.defaultValue !== "") {
+      defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ');
+      let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
+      const index = choices.findIndex(item => item.value === defaultValue);
+      if (index === -1) {
+        choices.push(newItem);
+        this.setState({
+          choices: [...this.state.choices, newItem]
+        });
+        console.log("this.state.choices", this.state.choices);
+      } else {
+        console.log("default value already exists in choices");
+      }
     } else {
-      console.log("default value already exists in choices or is empty");
+      console.log("default value is empty");
     }
   }
 
