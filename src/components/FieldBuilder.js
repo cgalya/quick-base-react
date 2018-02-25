@@ -7,12 +7,13 @@ import Button from './Button';
 import FormError from "./FormError";
 import axios from 'axios';
 
-
+//dropdown options for "type" dropdown
 const typeOptions = [
   {key: 'Multiselect', text: 'Multiselect', value: 'Multiselect'},
   {key: 'Single select', text: 'Single select', value: 'Single select'}
 ];
 
+//dropdown selections for "choices" multiselect
 const choices = [
   {key: 'Asia', text: 'Asia', value: 'Asia'},
   {key: 'Australia', text: 'Australia', value: 'Australia'},
@@ -22,6 +23,7 @@ const choices = [
   // { key: 'Africa', text: 'Africa', value: 'Africa' }
 ];
 
+//dropdown options for "order" dropdown
 const orderOptions = [
   {key: 'alphabetical', text: 'Alphabetical', value: 'alphabetical'},
   {key: 'random', text: 'Random', value: 'random'}
@@ -45,22 +47,30 @@ class FieldBuilder extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
+  //onChange handler for all inputs
   handleChange = (name) => (e, {value}) => {
     this.setState({[name]: value});
     console.log(this.state);
   };
 
+  //onChange handler for checkbox
   handleCheck = () => {
     this.setState({checked: !this.state.checked});
     console.log('checked?', this.state.checked)
   };
 
+  //method to add the "default value" input to the choices array if it is not a duplicate
   addDefaultValue = () => {
     let defaultValue = "";
+    //check to make sure the input field isn't blank so that a blank item isn't added to the array
     if (this.state.defaultValue !== "") {
+      //changes input to first letter uppercase so that all choices have uniform capitalization for comparison
       defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+      //create new object from default value
       let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
+      //check the "value" keys of all objects in the choices array for a match with the default value
       const index = choices.findIndex(item => item.value === defaultValue);
+      //if no match is found, add the new object to the choices array
       if (index === -1) {
         choices.push(newItem);
         this.setState({
@@ -68,13 +78,16 @@ class FieldBuilder extends React.Component {
         });
         console.log("this.state.choices", this.state.choices);
       } else {
+        //if there is a duplicate, log it
         console.log("default value already exists in choices");
       }
     } else {
+      //if the input field is blank, log it
       console.log("default value is empty");
     }
   }
 
+  //clicking the "cancel" button resets all the input fields and errors in the form by resetting their states
   resetForm = () => {
     this.setState({
       label: '',
@@ -87,15 +100,21 @@ class FieldBuilder extends React.Component {
     })
   };
 
+  //check the choices array for duplicates
   checkForDuplicates() {
-    let seen = new Set();
-    let hasDuplicates = choices.some(function (currentObject) {
-      return seen.size === seen.add(currentObject.value).size;
-    });
+    let hasDuplicates = false;
+    //a Set object will only accept new items that are unique, so add all items from the choices array and if the
+    // Set array is shorter than the choices array, that means there were duplicates, so return true
+    let unique = [...new Set(choices.map(item => item.value))];
+    if (unique.length < choices.length) {
+      // console.log("has duplicates")
+      hasDuplicates = true;
+    }
     console.log("hasDuplicates", hasDuplicates);
     return hasDuplicates;
   };
 
+  //post an object of the states of the inputs
   sendData = () => {
     axios.post('http://www.mocky.io/v2/566061f21200008e3aabd919', {
       'label': this.state.label,
@@ -112,18 +131,22 @@ class FieldBuilder extends React.Component {
     });
   };
 
+  //validation function
   validate = () => {
     let errors = {};
+    //check of the label input field is blank
     if (this.state.label === "") {
       errors.label = "This field is required";
     } else {
       delete errors.label;
     }
+    //check if the choices array is longer than 50
     if (this.state.choices.length >= 1) {
       errors.max = "The maximum number of choices is 50";
     } else {
       delete errors.max;
     }
+    //check if there are duplicates in the choices array
     if (this.checkForDuplicates()) {
       errors.duplicates = "Duplicate choices are not allowed";
     } else {
@@ -135,15 +158,20 @@ class FieldBuilder extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("submitted");
+    //add any default values to the choices array
     this.addDefaultValue();
+    // this.checkForDuplicates();
+    //get the value of errors from the validation function, which returns an array of errors
     let errors = this.validate();
     this.setState({
       errors: errors
     });
+    //don't submit if errors has any errors in it
     if (Object.keys(errors).length !== 0) {
       console.log(this.state.errors);
       return;
     } else {
+      //if no errors, make the axios call and post the data
       this.sendData();
     }
   };
