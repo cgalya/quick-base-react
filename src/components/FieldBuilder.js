@@ -9,22 +9,22 @@ import axios from 'axios';
 
 
 const typeOptions = [
-  { key: 'Multiselect', text: 'Multiselect', value: 'Multiselect' },
-  { key: 'Single select', text: 'Single select', value: 'Single select' }
+  {key: 'Multiselect', text: 'Multiselect', value: 'Multiselect'},
+  {key: 'Single select', text: 'Single select', value: 'Single select'}
 ];
 
 const choices = [
-  { key: 'Asia', text: 'Asia', value: 'Asia' },
-  { key: 'Australia', text: 'Australia', value: 'Australia' },
-  { key: 'Europe', text: 'Europe', value: 'Europe' },
-  { key: 'Americas', text: 'Americas', value: 'Americas' },
-  { key: 'Africa', text: 'Africa', value: 'Africa' }
+  {key: 'Asia', text: 'Asia', value: 'Asia'},
+  {key: 'Australia', text: 'Australia', value: 'Australia'},
+  {key: 'Europe', text: 'Europe', value: 'Europe'},
+  {key: 'Americas', text: 'Americas', value: 'Americas'},
+  {key: 'Africa', text: 'Africa', value: 'Africa'}
   // { key: 'Africa', text: 'Africa', value: 'Africa' }
 ];
 
 const orderOptions = [
-  { key: 'alphabetical', text: 'Alphabetical', value: 'alphabetical' },
-  { key: 'random', text: 'Random', value: 'random' }
+  {key: 'alphabetical', text: 'Alphabetical', value: 'alphabetical'},
+  {key: 'random', text: 'Random', value: 'random'}
 ];
 
 class FieldBuilder extends React.Component {
@@ -45,8 +45,8 @@ class FieldBuilder extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-  handleChange = (name) => (e, { value }) => {
-    this.setState({ [name]: value});
+  handleChange = (name) => (e, {value}) => {
+    this.setState({[name]: value});
     console.log(this.state);
   };
 
@@ -58,7 +58,7 @@ class FieldBuilder extends React.Component {
   addDefaultValue = () => {
     let defaultValue = "";
     if (this.state.defaultValue !== "") {
-      defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ');
+      defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
       let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
       const index = choices.findIndex(item => item.value === defaultValue);
       if (index === -1) {
@@ -82,13 +82,14 @@ class FieldBuilder extends React.Component {
       defaultValue: '',
       choices: [],
       order: '',
-      checked: false
+      checked: false,
+      errors: {}
     })
   };
 
   checkForDuplicates() {
     let seen = new Set();
-    let hasDuplicates = choices.some(function(currentObject) {
+    let hasDuplicates = choices.some(function (currentObject) {
       return seen.size === seen.add(currentObject.value).size;
     });
     console.log("hasDuplicates", hasDuplicates);
@@ -149,50 +150,57 @@ class FieldBuilder extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <TextInput
-          label="Label"
-          value={this.state.label}
-          onChange={this.handleChange('label')}
-        />
-        {this.state.errors.label ? <FormError label={this.state.errors.label}/> : null}
-        <div>
-          <DropdownSelect
-            label="Type"
-            onChange={this.handleChange('type')}
-            options={typeOptions}
-            placeholder='Choose an option'
-            value={this.state.type}
-          />
-          <Checkbox onChange={this.handleCheck} label="A value is required"/>
+      <div className="main">
+        <div className="form-wrapper">
+          <div className="title">
+            <h1>Field Builder</h1>
+          </div>
+          <form onSubmit={this.handleSubmit}>
+            <TextInput
+              label="Label"
+              value={this.state.label}
+              onChange={this.handleChange('label')}
+            />
+            {this.state.errors.label ? <FormError label={this.state.errors.label}/> : null}
+            <div className="checkbox-div">
+              <DropdownSelect
+                label="Type"
+                onChange={this.handleChange('type')}
+                options={typeOptions}
+                placeholder='Choose an option'
+                value={this.state.type}
+              />
+              <Checkbox onChange={this.handleCheck} label="A value is required"/>
+            </div>
+            <TextInput
+              label="Default Value"
+              value={this.state.defaultValue}
+              onChange={this.handleChange('defaultValue')}
+            />
+            <Multiselect
+              label="Choices"
+              onChange={this.handleChange('choices')}
+              options={choices}
+              placeholder='Choose an option'
+              value={this.state.choices}
+            />
+            {this.state.errors.duplicates ? <FormError label={this.state.errors.duplicates}/> : null}
+            {this.state.errors.max ? <FormError label={this.state.errors.max}/> : null}
+            <DropdownSelect
+              label="Order"
+              onChange={this.handleChange('order')}
+              options={orderOptions}
+              placeholder='Choose an option'
+              value={this.state.order}
+            />
+            <div className="buttons">
+              <Button label="Save changes" type="submit" className="save"/>
+              <span>Or</span>
+              <Button label="Cancel" type="button" className="cancel" onClick={this.resetForm}/>
+            </div>
+          </form>
         </div>
-        <TextInput
-          label="Default Value"
-          value={this.state.defaultValue}
-          onChange={this.handleChange('defaultValue')}
-        />
-        <Multiselect
-          label="Choices"
-          onChange={this.handleChange('choices')}
-          options={choices}
-          placeholder='Choose an option'
-          value={this.state.choices}
-        />
-        {this.state.errors.duplicates ? <FormError label={this.state.errors.duplicates}/> : null}
-        {this.state.errors.max ? <FormError label={this.state.errors.max}/> : null}
-        <DropdownSelect
-          label="Order"
-          onChange={this.handleChange('order')}
-          options={orderOptions}
-          placeholder='Choose an option'
-          value={this.state.order}
-        />
-        <div>
-          <Button label="Save changes" type="submit" className="save"/>
-          <span>Or</span>
-          <Button label="Cancel" type="button" className="cancel" onClick={this.resetForm}/>
-        </div>
-      </form>
+      </div>
     );
   }
 }

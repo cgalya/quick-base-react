@@ -1,0 +1,100 @@
+
+#root {
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.form-wrapper {
+  border: 1px #DCEDF6 solid;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+.title {
+  background-color: #DCEDF6;
+  padding: 20px;
+}
+
+.title > h1 {
+  font-size: 1.3em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 20px 20px;
+}
+
+.form-group {
+  padding: 25px 20px 5px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.checkbox-div > .form-group {
+  padding-bottom: 5px;
+}
+
+.form-group label {
+  width: 125px;
+  font-weight: bold;
+}
+
+.form-group .input, .form-group .dropdown {
+  display: flex;
+  width: 250px;
+}
+
+.form-group .input input {
+  flex: 1 1 auto;
+  display: block;
+}
+
+.ui.selection.dropdown>.delete.icon, .ui.selection.dropdown>.dropdown.icon, .ui.selection.dropdown>.search.icon {
+  background-color: #EEEEEE;
+  margin-right: -1.1em;
+  border-radius: 0 .28571429rem .28571429rem 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 20px 20px 20px;
+}
+
+.buttons .save {
+  background-color: #73B566;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.buttons .cancel {
+  color: #EE645B;
+  border: none;
+  margin-left: 10px;
+  padding: 0;
+}
+
+.error {
+  color: #EE645B;
+  text-align: center;
+  margin: 0;
+}

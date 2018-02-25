@@ -3,7 +3,7 @@ import { Dropdown } from 'semantic-ui-react';
 
 const DropdownSelect = props => {
   return (
-    <div>
+    <div className="form-group">
       <label>{props.label}</label>
       <Dropdown
         selection
