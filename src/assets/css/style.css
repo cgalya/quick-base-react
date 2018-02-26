@@ -64,7 +64,8 @@ form {
 }
 
 .form-group .input,
-.form-group .dropdown {
+.form-group .dropdown,
+.form-group .choices {
   display: flex;
   width: 250px;
 }
@@ -80,6 +81,19 @@ form {
   background-color: #EEEEEE;
   margin-right: -1.1em;
   border-radius: 0 .28571429rem .28571429rem 0;
+}
+
+.choices {
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: 4px;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  padding: .67857143em 1em;
+  line-height: 1.6em;
+  outline: none;
+}
+
+.choices:focus {
+  border: 1px solid rgba(73, 155, 207, 0.69);
 }
 
 .buttons {
