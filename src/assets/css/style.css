@@ -86,14 +86,53 @@ form {
 .choices {
   border: 1px solid rgba(34,36,38,.15);
   border-radius: 4px;
-  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-  padding: .67857143em 1em;
-  line-height: 1.6em;
-  outline: none;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
-.choices:focus {
-  border: 1px solid rgba(73, 155, 207, 0.69);
+/*.choices:focus {*/
+  /*border: 1px solid rgba(73, 155, 207, 0.69);*/
+/*}*/
+
+.choices .choices-top {
+  display: flex;
+}
+
+.choices .choices-top .add {
+  height: 38px;
+  width: 28px;
+  border: none;
+  background-color: #EEEEEE;
+}
+
+.choices .choices-top .ui.input {
+  width: 222px;
+  border-radius: .28571429rem 0 0 0;
+  border-bottom: 2px solid rgba(34,36,38,.15);
+  height: 38px;
+}
+
+.choices .choices-top input {
+  border-radius: .28571429rem 0 0 0;
+}
+
+.choices > ul {
+  overflow-y: scroll;
+  list-style: none;
+  padding: 0;
+}
+
+.choices .list-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(34,36,38,.15);
+  align-items: center;
+  padding: 10px;
+}
+
+.choices .list-item p {
+  margin-bottom: 0;
 }
 
 .buttons {

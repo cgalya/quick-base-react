@@ -10,6 +10,7 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
     "react-select": "^1.2.1",
+    "react-text-2-list": "^1.0.8",
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.2"
   },

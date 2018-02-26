@@ -7,8 +7,6 @@ const TextInput = (props) => {
       <label>{props.label}</label>
       <Input value={props.value} onChange={props.onChange}/>
     </div>
-
-
     )
 };
 

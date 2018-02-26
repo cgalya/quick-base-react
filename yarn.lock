@@ -5234,6 +5234,13 @@ react-select@^1.2.1:
     prop-types "^15.5.8"
     react-input-autosize "^2.1.2"
 
+react-text-2-list@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-text-2-list/-/react-text-2-list-1.0.8.tgz#434d9085f14f0f5c4f4bbedbf2b7ff4f6d2580e5"
+  dependencies:
+    lodash.uniq "^4.5.0"
+    prop-types "^15.6.0"
+
 react@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"

@@ -5,7 +5,12 @@ import Multiselect from './Multiselect';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import FormError from './FormError';
+import Choices from './Choices';
+import ListItem from './ListItem';
+// import { Text2List } from 'react-text-2-list';
+// import '../../node_modules/react-text-2-list/css/style.css';
 import TextArea from './TextArea';
+
 import axios from 'axios';
 
 //dropdown options for "type" dropdown
@@ -14,15 +19,6 @@ const typeOptions = [
   {key: 'Single select', text: 'Single select', value: 'Single select'}
 ];
 
-//dropdown selections for "choices" multiselect
-// const choices = [
-//   {key: 'Asia', text: 'Asia', value: 'Asia'},
-//   {key: 'Australia', text: 'Australia', value: 'Australia'},
-//   {key: 'Europe', text: 'Europe', value: 'Europe'},
-//   {key: 'Americas', text: 'Americas', value: 'Americas'},
-//   {key: 'Africa', text: 'Africa', value: 'Africa'}
-//   // { key: 'Africa', text: 'Africa', value: 'Africa' }
-// ];
 
 //dropdown options for "order" dropdown
 const orderOptions = [
@@ -37,7 +33,8 @@ class FieldBuilder extends React.Component {
       label: '',
       type: '',
       defaultValue: '',
-      choices: '',
+      item: '',
+      choices: [],
       order: '',
       checked: false,
       errors: {}
@@ -46,38 +43,15 @@ class FieldBuilder extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.onAddCallback = this.onAddCallback.bind(this);
   };
 
-  // componentDidMount = () => {
-    // localStorage.clear();
-    // this.setState({
-    //   label: JSON.parse(localStorage.getItem('label')),
-    //   type: JSON.parse(localStorage.getItem('type')),
-    //   defaultValue: JSON.parse(localStorage.getItem('defaultValue')),
-    //   choices: JSON.parse(localStorage.getItem('choices')),
-    //   order: JSON.parse(localStorage.getItem('order')),
-    //   checked: JSON.parse(localStorage.getItem('checked')),
-    //   errors: JSON.parse(localStorage.getItem('errors'))
-    // });
-    // console.log('set state', this.state);
-  // };
 
-  // componentDidUpdate = () => {
-  //   localStorage.setItem('label', JSON.stringify(this.state.label));
-  //   localStorage.setItem('type', JSON.stringify(this.state.type));
-  //   localStorage.setItem('defaultValue', JSON.stringify(this.state.defaultValue));
-  //   localStorage.setItem('choices', JSON.stringify(this.state.choices));
-  //   localStorage.setItem('order', JSON.stringify(this.state.order));
-  //   localStorage.setItem('checked', JSON.stringify(this.state.checked));
-  //   localStorage.setItem('errors', JSON.stringify(this.state.errors));
-  //   console.log("updated", JSON.stringify(this.state.label));
-  // };
-
-  //onChange handler for all inputs
-  // handleChange = (name) => (e, {value}) => {
-  //   this.setState({[name]: value});
-  //   console.log(this.state);
-  // };
+  // onChange handler for all inputs
+  handleChange = (name) => (e, {value}) => {
+    this.setState({[name]: value});
+    console.log(this.state);
+  };
 
   //onChange handler for checkbox
   handleCheck = () => {
@@ -85,40 +59,81 @@ class FieldBuilder extends React.Component {
     console.log('checked?', this.state.checked)
   };
 
-  handleChange = (name, value) => {
-    let state = this.state;
-    state[name] = value;
-    this.setState({state});
-
+  addItem = (value) => {
+    if (this.state.item !== "") {
+      let newItem = this.state.item.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+      if (this.state.choices.length === 0) {
+        this.setState({
+          choices: [newItem, ...this.state.choices]
+        });
+        this.setState({
+          item: ""
+        })
+        delete this.state.errors.duplicates
+      } else if (this.state.choices.length !== 0 && this.state.choices.indexOf(newItem) === -1) {
+        this.setState({
+          choices: [newItem, ...this.state.choices]
+        });
+        this.setState({
+          item: ""
+        })
+        delete this.state.errors.duplicates
+      } else if (this.state.choices.indexOf(newItem) !== -1) {
+        let errors = {};
+        errors.duplicates = "Duplicate choices are not allowed";
+        this.setState({
+          errors: errors
+        });
+        this.setState({
+          item: ""
+        })
+      }
+    }
   }
 
-  //method to add the "default value" input to the choices array if it is not a duplicate
-  // addDefaultValue = () => {
-  //   let defaultValue = "";
-  //   //check to make sure the input field isn't blank so that a blank item isn't added to the array
-  //   if (this.state.defaultValue !== "") {
-  //     //changes input to first letter uppercase so that all choices have uniform capitalization for comparison
-  //     defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
-  //     //create new object from default value
-  //     let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
-  //     //check the "value" keys of all objects in the choices array for a match with the default value
-  //     const index = choices.findIndex(item => item.value === defaultValue);
-  //     //if no match is found, add the new object to the choices array
-  //     if (index === -1) {
-  //       choices.push(newItem);
-  //       this.setState({
-  //         choices: [...this.state.choices, newItem]
-  //       });
-  //       console.log("this.state.choices", this.state.choices);
-  //     } else {
-  //       //if there is a duplicate, log it
-  //       console.log("default value already exists in choices");
-  //     }
-  //   } else {
-  //     //if the input field is blank, log it
-  //     console.log("default value is empty");
-  //   }
+  deleteItem = (item) => {
+    console.log("item", item);
+    let newChoices = this.state.choices;
+    let itemIndex = this.state.choices.indexOf(item);
+    this.state.choices.splice(itemIndex, 1);
+    this.setState({choices: newChoices});
+    console.log("choices", newChoices);
+  }
+
+  // onAddCallback = (list) => {
+  //   console.log(list);
+  //   // do whatever you like with your list,
+  //   // which is an array of strings
   // }
+
+  // method to add the "default value" input to the choices array if it is not a duplicate
+  addDefaultValue = () => {
+    //check to make sure the input field isn't blank so that a blank item isn't added to the array
+    if (this.state.defaultValue !== "") {
+      //changes input to first letter uppercase so that all choices have uniform capitalization for comparison
+      let defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+      //create new object from default value
+      // let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
+      //check the "value" keys of all objects in the choices array for a match with the default value
+      // const index = choices.findIndex(item => item.value === defaultValue);
+      //if no match is found, add the new object to the choices array
+      // this.setState({ choices: [...this.state.choices, newItem] });
+      if (this.state.choices.indexOf(defaultValue) === -1) {
+        this.setState({
+          choices: [defaultValue, ...this.state.choices]
+        });
+        delete this.state.errors.duplicates
+      }
+      console.log("this.state.choices", this.state.choices);
+    } else {
+        //if there is a duplicate, log it
+        console.log("default value already exists in choices");
+    }
+    // } else {
+    //   //if the input field is blank, log it
+    //   console.log("default value is empty");
+    // }
+  }
 
   //clicking the "cancel" button resets all the input fields and errors in the form by resetting their states
   resetForm = () => {
@@ -180,11 +195,11 @@ class FieldBuilder extends React.Component {
       delete errors.max;
     }
     //check if there are duplicates in the choices array
-    if (this.checkForDuplicates()) {
-      errors.duplicates = "Duplicate choices are not allowed";
-    } else {
-      delete errors.duplicates;
-    }
+    // if (this.checkForDuplicates()) {
+    //   errors.duplicates = "Duplicate choices are not allowed";
+    // } else {
+    //   delete errors.duplicates;
+    // }
     return errors;
   };
 
@@ -208,6 +223,7 @@ class FieldBuilder extends React.Component {
       this.sendData();
     }
   };
+
 
   render() {
     return (
@@ -238,28 +254,11 @@ class FieldBuilder extends React.Component {
               value={this.state.defaultValue}
               onChange={this.handleChange('defaultValue')}
             />
-            <TextArea
-              rows="6"
-              className="choices"
-              // name="choices"
-              label="Choices"
-              placeholder={'Asia\nAfrica\nEurope\nAmericas'}
-              onChange={this.handleChange(this, 'choices')}
-              value={this.state.choices}
-            />
-            {/*<Multiselect*/}
-              {/*{*/}
-                {/*choices.map(choice => (*/}
-                  {/*<option key={choice.key}*/}
-                                 {/*value={choice.value}>{choice.text}</option>;*/}
-                {/*)*/}
-              {/*}*/}
-              {/*// label="Choices"*/}
-              {/*// onChange={this.handleChange('choices')}*/}
-              {/*// options={choices}*/}
-              {/*// placeholder='Choose an option'*/}
-              {/*// value={this.state.choices}*/}
-            {/*/>*/}
+            <Choices label="Choices" value={this.state.item} onChange={this.handleChange('item')} onAdd={this.addItem}>
+              {this.state.choices.map(item => (
+                <ListItem key={item} item={item} onDelete={() => this.deleteItem(item)}/>
+              ))}
+            </Choices>
             {this.state.errors.duplicates ? <FormError label={this.state.errors.duplicates}/> : null}
             {this.state.errors.max ? <FormError label={this.state.errors.max}/> : null}
             <DropdownSelect
