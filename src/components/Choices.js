@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from './Button.js'
 import {Input} from 'semantic-ui-react';
 
 const Choices = (props) => {
@@ -8,7 +7,7 @@ const Choices = (props) => {
       <label>{props.label}</label>
       <div className="choices">
         <div className="choices-top">
-          <Input value={props.value} onChange={props.onChange} placeholder="Enter choice here"/>
+          <Input value={props.value} onChange={props.onChange} placeholder="Enter choice here" disabled={props.disabled}/>
           <button className="add" type="button" onClick={props.onAdd}><i className="fas fa-plus"></i></button>
         </div>
         <ul>

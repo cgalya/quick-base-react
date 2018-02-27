@@ -1,16 +1,11 @@
 import React from 'react';
 import TextInput from './TextInput';
 import DropdownSelect from './DropdownSelect';
-import Multiselect from './Multiselect';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import FormError from './FormError';
 import Choices from './Choices';
 import ListItem from './ListItem';
-// import { Text2List } from 'react-text-2-list';
-// import '../../node_modules/react-text-2-list/css/style.css';
-import TextArea from './TextArea';
-
 import axios from 'axios';
 
 //dropdown options for "type" dropdown
@@ -37,13 +32,13 @@ class FieldBuilder extends React.Component {
       choices: [],
       order: '',
       checked: false,
-      errors: {}
+      errors: {},
+      disabled: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.onAddCallback = this.onAddCallback.bind(this);
   };
 
 
@@ -59,80 +54,94 @@ class FieldBuilder extends React.Component {
     console.log('checked?', this.state.checked)
   };
 
-  addItem = (value) => {
+  //add a choice to the choices list
+  addItem = () => {
+    //check if input is empty so we don't add blanks to the list
     if (this.state.item !== "") {
+      //make the first letter uppercase for accurate comparison
       let newItem = this.state.item.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+      //if this is the first item, add it to the list, clear the input field, and clear the duplicates error message
       if (this.state.choices.length === 0) {
         this.setState({
-          choices: [newItem, ...this.state.choices]
+          choices: [newItem, ...this.state.choices],
+          item: "",
+          errors: {
+            ...this.state.errors,
+            duplicates: ""
+          }
         });
-        this.setState({
-          item: ""
-        })
-        delete this.state.errors.duplicates
       } else if (this.state.choices.length !== 0 && this.state.choices.indexOf(newItem) === -1) {
+        //if the list is longer than 0 and no duplicates are found, add new input to the list, clear the input
+        // field, and clear the duplicates error message
         this.setState({
-          choices: [newItem, ...this.state.choices]
+          choices: [newItem, ...this.state.choices],
+          item: "",
+          errors: {
+            ...this.state.errors,
+            duplicates: ""
+          }
         });
-        this.setState({
-          item: ""
-        })
-        delete this.state.errors.duplicates
+        //validate for length of list, set error message to state, and disable choices input field
+        if (this.state.choices.length >= 5) {
+          this.setState({
+            errors: {
+              ...this.state.errors,
+              max: "The maximum number of choices is 5"
+            },
+            disabled: true
+          })
+        }
       } else if (this.state.choices.indexOf(newItem) !== -1) {
-        let errors = {};
-        errors.duplicates = "Duplicate choices are not allowed";
+        //if a duplicate is found, don't add it to the list, clear the input field, and set error message to state
         this.setState({
-          errors: errors
+          item: "",
+          errors: {
+            ...this.state.errors,
+            duplicates: "Duplicate choices are not allowed"
+          }
         });
-        this.setState({
-          item: ""
-        })
       }
     }
   }
 
   deleteItem = (item) => {
-    console.log("item", item);
     let newChoices = this.state.choices;
+    //get index of the item being deleted
     let itemIndex = this.state.choices.indexOf(item);
+    //remove that item from the choices array
     this.state.choices.splice(itemIndex, 1);
+    //set the new choices array to state
     this.setState({choices: newChoices});
-    console.log("choices", newChoices);
+    //if when you delete this item, it returns the array length to below the max, remove the error message and
+    // enable the choices input field
+    if (this.state.choices.length <= 5) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          max: ""
+        },
+        disabled: false
+      })
+    }
   }
 
-  // onAddCallback = (list) => {
-  //   console.log(list);
-  //   // do whatever you like with your list,
-  //   // which is an array of strings
-  // }
-
-  // method to add the "default value" input to the choices array if it is not a duplicate
+  // method to add the "default value" input to the choices array if it is not a duplicate upon submit
   addDefaultValue = () => {
+    console.log("adddefaultvalue")
     //check to make sure the input field isn't blank so that a blank item isn't added to the array
     if (this.state.defaultValue !== "") {
       //changes input to first letter uppercase so that all choices have uniform capitalization for comparison
       let defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
-      //create new object from default value
-      // let newItem = {key: defaultValue, text: defaultValue, value: defaultValue};
-      //check the "value" keys of all objects in the choices array for a match with the default value
-      // const index = choices.findIndex(item => item.value === defaultValue);
-      //if no match is found, add the new object to the choices array
-      // this.setState({ choices: [...this.state.choices, newItem] });
       if (this.state.choices.indexOf(defaultValue) === -1) {
         this.setState({
           choices: [defaultValue, ...this.state.choices]
         });
-        delete this.state.errors.duplicates
       }
       console.log("this.state.choices", this.state.choices);
     } else {
         //if there is a duplicate, log it
         console.log("default value already exists in choices");
     }
-    // } else {
-    //   //if the input field is blank, log it
-    //   console.log("default value is empty");
-    // }
   }
 
   //clicking the "cancel" button resets all the input fields and errors in the form by resetting their states
@@ -141,26 +150,14 @@ class FieldBuilder extends React.Component {
       label: '',
       type: '',
       defaultValue: '',
+      item: '',
       choices: [],
       order: '',
       checked: false,
-      errors: {}
+      errors: {},
+      disabled: false
     })
   };
-
-  //check the choices array for duplicates
-  // checkForDuplicates() {
-  //   let hasDuplicates = false;
-  //   //a Set object will only accept new items that are unique, so add all items from the choices array and if the
-  //   // Set array is shorter than the choices array, that means there were duplicates, so return true
-  //   let unique = [...new Set(choices.map(item => item.value))];
-  //   if (unique.length < choices.length) {
-  //     // console.log("has duplicates")
-  //     hasDuplicates = true;
-  //   }
-  //   console.log("hasDuplicates", hasDuplicates);
-  //   return hasDuplicates;
-  // };
 
   //post an object of the states of the inputs
   sendData = () => {
@@ -180,27 +177,24 @@ class FieldBuilder extends React.Component {
   };
 
   //validation function
-  validate = () => {
-    let errors = {};
+  validateLabel = () => {
     //check of the label input field is blank
     if (this.state.label === "") {
-      errors.label = "This field is required";
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          label: "This field is required"
+        }
+      })
     } else {
-      delete errors.label;
+      //if not blank, clear the error message
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          label: ""
+        }
+      })
     }
-    //check if the choices array is longer than 50
-    if (this.state.choices.length >= 50) {
-      errors.max = "The maximum number of choices is 50";
-    } else {
-      delete errors.max;
-    }
-    //check if there are duplicates in the choices array
-    // if (this.checkForDuplicates()) {
-    //   errors.duplicates = "Duplicate choices are not allowed";
-    // } else {
-    //   delete errors.duplicates;
-    // }
-    return errors;
   };
 
   handleSubmit = (event) => {
@@ -208,14 +202,11 @@ class FieldBuilder extends React.Component {
     console.log("submitted");
     //add any default values to the choices array
     this.addDefaultValue();
-    // this.checkForDuplicates();
-    //get the value of errors from the validation function, which returns an array of errors
-    let errors = this.validate();
-    this.setState({
-      errors: errors
-    });
-    //don't submit if errors has any errors in it
-    if (Object.keys(errors).length !== 0) {
+    //check if the label field is empty
+    this.validateLabel();
+    //don't submit if errors state has any error messages in it
+    let errors = this.state.errors;
+    if (errors.label !== "" && errors.max !== "" && errors.duplicates !== "") {
       console.log(this.state.errors);
       return;
     } else {
@@ -254,7 +245,7 @@ class FieldBuilder extends React.Component {
               value={this.state.defaultValue}
               onChange={this.handleChange('defaultValue')}
             />
-            <Choices label="Choices" value={this.state.item} onChange={this.handleChange('item')} onAdd={this.addItem}>
+            <Choices label="Choices" value={this.state.item} disabled={this.state.disabled} onChange={this.handleChange('item')} onAdd={this.addItem}>
               {this.state.choices.map(item => (
                 <ListItem key={item} item={item} onDelete={() => this.deleteItem(item)}/>
               ))}
