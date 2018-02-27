@@ -192,8 +192,4 @@ form {
   .error {
     margin: 0 0 0 20px;
   }
-  .form-group .input,
-  .form-group .dropdown {
-    width: 200px;
-  }
 }

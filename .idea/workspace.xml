@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a37eae7-e70f-4bf4-999e-d3314f2e5b0e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/components/Choices.js" afterPath="$PROJECT_DIR$/src/components/Choices.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/FieldBuilder.js" afterPath="$PROJECT_DIR$/src/components/FieldBuilder.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/ListItem.js" afterPath="$PROJECT_DIR$/src/components/ListItem.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Multiselect.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/components/TextArea.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/style.css" afterPath="$PROJECT_DIR$/src/assets/css/style.css" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,7 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FieldBuilder.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FieldBuilder.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/FieldBuilder.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
@@ -60,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/assets/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="130" column="13" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
+            <state relative-caret-position="604">
+              <caret line="193" column="3" lean-forward="false" selection-start-line="193" selection-start-column="3" selection-end-line="193" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -119,11 +115,11 @@
         <option value="$PROJECT_DIR$/src/components/TextArea.js" />
         <option value="$PROJECT_DIR$/src/components/choices.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/src/assets/css/style.css" />
         <option value="$PROJECT_DIR$/src/components/TextInput.js" />
         <option value="$PROJECT_DIR$/src/components/Choices.js" />
         <option value="$PROJECT_DIR$/src/components/ListItem.js" />
         <option value="$PROJECT_DIR$/src/components/FieldBuilder.js" />
+        <option value="$PROJECT_DIR$/src/assets/css/style.css" />
       </list>
     </option>
   </component>
@@ -340,7 +336,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1519492359338</updated>
-      <workItem from="1519492361427" duration="94793000" />
+      <workItem from="1519492361427" duration="95429000" />
     </task>
     <task id="LOCAL-00001" summary="basic component structure">
       <created>1519494578371</created>
@@ -405,11 +401,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519685542464</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="seems to be working, comments added">
+      <created>1519701270391</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1519701270391</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94793000" />
+    <option name="totallyTimeSpent" value="95429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -491,7 +494,8 @@
     <MESSAGE value="responsive design" />
     <MESSAGE value="committing commented code for readability" />
     <MESSAGE value="list component added" />
-    <option name="LAST_COMMIT_MESSAGE" value="list component added" />
+    <MESSAGE value="seems to be working, comments added" />
+    <option name="LAST_COMMIT_MESSAGE" value="seems to be working, comments added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -645,14 +649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="130" column="13" lean-forward="false" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/TextInput.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -686,6 +682,14 @@
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="604">
+          <caret line="193" column="3" lean-forward="false" selection-start-line="193" selection-start-column="3" selection-end-line="193" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
