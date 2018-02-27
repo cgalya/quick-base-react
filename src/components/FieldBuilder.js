@@ -57,8 +57,11 @@ class FieldBuilder extends React.Component {
   addItem = () => {
     //check if input is empty so we don't add blanks to the list
     if (this.state.item !== "") {
-      //make the first letter uppercase for accurate comparison
-      let newItem = this.state.item.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
+      //change the item and the choices array to lower case so they can be compared accurately      let newItem =
+      // this.state.item;
+      let lowercaseItem = newItem.toLowerCase();
+      let lowercaseChoices = this.state.choices.map(choice => choice.toLowerCase());
+      console.log("lowercase choices", lowercaseChoices);
       //if this is the first item, add it to the list, clear the input field, and clear the duplicates error message
       if (this.state.choices.length === 0) {
         this.setState({
@@ -69,7 +72,7 @@ class FieldBuilder extends React.Component {
             duplicates: ""
           }
         });
-      } else if (this.state.choices.length !== 0 && this.state.choices.indexOf(newItem) === -1) {
+      } else if (this.state.choices.length !== 0 && lowercaseChoices.indexOf(lowercaseItem) === -1) {
         //if the list is longer than 0 and no duplicates are found, add new input to the list, clear the input
         // field, and clear the duplicates error message
         this.setState({
@@ -85,12 +88,12 @@ class FieldBuilder extends React.Component {
           this.setState({
             errors: {
               ...this.state.errors,
-              max: "The maximum number of choices is 5"
+              max: "The maximum number of choices is 5."
             },
             disabled: true
           })
         }
-      } else if (this.state.choices.indexOf(newItem) !== -1) {
+      } else if (lowercaseChoices.indexOf(lowercaseItem) !== -1) {
         //if a duplicate is found, don't add it to the list, clear the input field, and set error message to state
         this.setState({
           item: "",
@@ -127,19 +130,22 @@ class FieldBuilder extends React.Component {
   // method to add the "default value" input to the choices array if it is not a duplicate upon submit
   addDefaultValue = () => {
     console.log("adddefaultvalue")
+    let newItem = this.state.defaultValue;
+    //change the item and the choices array to lower case so they can be compared accurately
+    let lowercaseItem = newItem.toLowerCase();
+    let lowercaseChoices = this.state.choices.map(choice => choice.toLowerCase());
     //check to make sure the input field isn't blank so that a blank item isn't added to the array
     if (this.state.defaultValue !== "") {
       //changes input to first letter uppercase so that all choices have uniform capitalization for comparison
-      let defaultValue = this.state.defaultValue.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
-      if (this.state.choices.indexOf(defaultValue) === -1) {
+      if (lowercaseChoices.indexOf(lowercaseItem) === -1) {
         this.setState({
-          choices: [defaultValue, ...this.state.choices]
+          choices: [newItem, ...this.state.choices]
         });
       }
       console.log("this.state.choices", this.state.choices);
     } else {
-        //if there is a duplicate, log it
-        console.log("default value already exists in choices");
+      //if there is a duplicate, log it
+      console.log("default value already exists in choices");
     }
   }
 
@@ -244,7 +250,8 @@ class FieldBuilder extends React.Component {
               value={this.state.defaultValue}
               onChange={this.handleChange('defaultValue')}
             />
-            <Choices label="Choices" value={this.state.item} disabled={this.state.disabled} onChange={this.handleChange('item')} onAdd={this.addItem}>
+            <Choices label="Choices" value={this.state.item} disabled={this.state.disabled}
+                     onChange={this.handleChange('item')} onAdd={this.addItem}>
               {this.state.choices.map(item => (
                 <ListItem key={item} item={item} onDelete={() => this.deleteItem(item)}/>
               ))}
