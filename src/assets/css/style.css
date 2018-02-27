@@ -170,6 +170,7 @@ form {
   color: #EE645B;
   text-align: left;
   margin: 0 0 0 145px;
+  white-space: pre-wrap;
 }
 
 

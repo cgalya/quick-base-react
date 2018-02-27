@@ -6,6 +6,7 @@ import Button from './Button';
 import FormError from './FormError';
 import Choices from './Choices';
 import ListItem from './ListItem';
+import Cases from './Cases';
 import axios from 'axios';
 
 //dropdown options for "type" dropdown
@@ -88,7 +89,7 @@ class FieldBuilder extends React.Component {
           this.setState({
             errors: {
               ...this.state.errors,
-              max: "The maximum number of choices is 5."
+              max: "The maximum number of choices is 5\nPlease delete one to continue"
             },
             disabled: true
           })
@@ -159,7 +160,11 @@ class FieldBuilder extends React.Component {
       choices: [],
       order: '',
       checked: false,
-      errors: {},
+      errors: {
+        max: '',
+        duplicates: '',
+        label: ''
+      },
       disabled: false
     })
   };
@@ -184,7 +189,7 @@ class FieldBuilder extends React.Component {
   //validation function
   validateLabel = () => {
     //check of the label input field is blank
-    if (this.state.label === "") {
+    if (!this.state.label) {
       this.setState({
         errors: {
           ...this.state.errors,
@@ -209,9 +214,9 @@ class FieldBuilder extends React.Component {
     this.addDefaultValue();
     //check if the label field is empty
     this.validateLabel();
-    //don't submit if errors state has any error messages in it
+    //don't submit if errors state contains the label or max error messages
     let errors = this.state.errors;
-    if (errors.label !== "" && errors.max !== "" && errors.duplicates !== "") {
+    if (!this.state.label || errors.max) {
       console.log(this.state.errors);
       return;
     } else {
