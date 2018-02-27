@@ -45,7 +45,6 @@ class FieldBuilder extends React.Component {
   // onChange handler for all inputs
   handleChange = (name) => (e, {value}) => {
     this.setState({[name]: value});
-    console.log(this.state);
   };
 
   //onChange handler for checkbox
