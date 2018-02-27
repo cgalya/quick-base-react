@@ -17,8 +17,8 @@
       <file leaf-file-name="FieldBuilder.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/FieldBuilder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="59" column="6" lean-forward="false" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
+            <state relative-caret-position="107">
+              <caret line="60" column="6" lean-forward="false" selection-start-line="60" selection-start-column="6" selection-end-line="60" selection-end-column="6" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -339,7 +339,7 @@
       <option name="presentableId" value="Default" />
       <updated>1519492359338</updated>
       <workItem from="1519492361427" duration="96742000" />
-      <workItem from="1519746463495" duration="4313000" />
+      <workItem from="1519746463495" duration="4407000" />
     </task>
     <task id="LOCAL-00001" summary="basic component structure">
       <created>1519494578371</created>
@@ -425,11 +425,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519747793011</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="change case validation">
+      <created>1519757280753</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1519757280754</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101055000" />
+    <option name="totallyTimeSpent" value="101149000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -514,7 +521,8 @@
     <MESSAGE value="seems to be working, comments added" />
     <MESSAGE value="responsive design update" />
     <MESSAGE value="gitignore .idea added" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore .idea added" />
+    <MESSAGE value="change case validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="change case validation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -659,8 +667,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/FieldBuilder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="59" column="6" lean-forward="false" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
+        <state relative-caret-position="107">
+          <caret line="60" column="6" lean-forward="false" selection-start-line="60" selection-start-column="6" selection-end-line="60" selection-end-column="6" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

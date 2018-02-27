@@ -57,8 +57,8 @@ class FieldBuilder extends React.Component {
   addItem = () => {
     //check if input is empty so we don't add blanks to the list
     if (this.state.item !== "") {
-      //change the item and the choices array to lower case so they can be compared accurately      let newItem =
-      // this.state.item;
+      //change the item and the choices array to lower case so they can be compared accurately
+      let newItem = this.state.item;
       let lowercaseItem = newItem.toLowerCase();
       let lowercaseChoices = this.state.choices.map(choice => choice.toLowerCase());
       console.log("lowercase choices", lowercaseChoices);
